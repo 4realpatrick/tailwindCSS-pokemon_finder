@@ -16,7 +16,7 @@
 
 
 
-[![antd](./src/static/antd.png "antd")](https://ant.design/index-cn)
+[![antd](https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg "antd")](https://ant.design/index-cn)
 
 
 
