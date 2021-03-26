@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Spin } from "antd";
 import { IPokemonListLocal, IPokemonLocal, IPokemon } from "../interface";
 
+// 初始化pokemon,后端数据结构
 const initialPokemon = {
   count: 0,
   next: "",
@@ -27,22 +28,28 @@ const Home: FC = () => {
   const [hideLoadingButton,setHideLoadingButton] = useState<boolean>(false)
 
   useEffect(() => {
+    // 设置加载中
     setShowLoading(true)
     fetch(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=${limit}`)
       .then(res => res.json())
       .then(data => {
         if(!data.next){
+          // 如果没有next属性,证明没有下一个,设置加载更多按钮为隐藏
           setHideLoadingButton(true)
         }
+        // 将sprites对象转为数组
         const results = data.results.map((pokemon: IPokemon, index: number) => {
           return { ...pokemon, index: index + 1 };
         });
+        // setPokemon
         setPokemon({ ...data, results });
+        // 关闭加载中状态
         setShowLoading(false)
       });
   }, [limit]);
 
   useMemo(() => {
+    // 当筛选条件改变时,获取过滤后的列表
     if (pokemonInput.length === 0) {
       setFilteredPokemon(pokemon.results);
       return;
@@ -78,17 +85,13 @@ const Home: FC = () => {
       </div>
       <Spin spinning={showLoading} size="large">
         <div className="mt-10 p-6 flex flex-wrap">
-          {filteredPokemon.length
-            ? filteredPokemon.map((item, index) => (
+          {filteredPokemon.length ?
+            filteredPokemon.map((item, index) => (
                 <div className="ml-4 text-2xl text-blue-400" key={index}>
                   <Link to={`/about/${item.index}`}>{item.name}</Link>
                 </div>
               ))
-            : pokemon.results.map((item, index) => (
-                <div className="ml-4 text-2xl text-blue-400" key={index}>
-                  <Link to={`/about/${item.index}`}>{item.name}</Link>
-                </div>
-              ))
+            : <div className="flex justify-center items-center text-4xl text-blue-400 text-center w-full">no such pokemon under this circumstance</div>
           }
         </div>
         <div className="flex justify-center items-center">
