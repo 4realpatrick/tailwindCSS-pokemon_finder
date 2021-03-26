@@ -153,7 +153,7 @@ npm i -D antd
 
 在开始之前，在`vscode`中下载`Tailwind CSS IntelliSense`,以确保在编写`tailwindcss`时获取相应的提示,就像👇一样
 
-![image-20210326105517507](/Users/beisen/Library/Application Support/typora-user-images/image-20210326105517507.png)
+![image-20210326105517507](./src/static/tailwindcss插件效果图.png)
 
 # 思考
 
