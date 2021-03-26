@@ -12,11 +12,11 @@
 
 # 文档
 
-[![tailwindcss](/Users/beisen/Library/Application Support/typora-user-images/image-20210324150322796.png "tailwindcss")](https://www.tailwindcss.cn/)
+[![tailwindcss](./src/static/tailwindcss.png "tailwindcss")](https://www.tailwindcss.cn/)
 
 
 
-[![antd](/Users/beisen/Library/Application Support/typora-user-images/image-20210326104603117.png "antd")](https://ant.design/index-cn)
+[![antd](./src/static/antd.png "antd")](https://ant.design/index-cn)
 
 
 
