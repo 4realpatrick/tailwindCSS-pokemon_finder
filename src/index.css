@@ -4,4 +4,13 @@
 @import '~antd/dist/antd.css';
 .ant-image-preview-img{
   margin: 0 auto!important;
+  width: 300px;
+}
+.ant-image-preview-img-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ant-image{
+  margin-right: 10px;
 }

@@ -30,4 +30,5 @@ export interface IAboutRouteParams{
 export interface IPokemonDisplay{
   name:string
   sprites:any[]
+  abilities:any[]
 }

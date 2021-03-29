@@ -1,11 +1,12 @@
 import { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom'
 import { IAboutRouteParams, IPokemonDisplay } from '../interface';
-import { Spin, Image } from 'antd'
+import { Spin, Image, Tooltip } from 'antd'
 
 const initialPokemon = {
   name:"",
-  sprites:[]
+  sprites:[],
+  abilities:[]
 }
 
 const About:FC = () => {
@@ -38,30 +39,46 @@ const About:FC = () => {
         (
           <Spin spinning={showLoading} size="large">
             <div className="w-full  mb-4 flex justify-center items-center" style={{display:(showLoading?"none":"")}}>
-              <h3 className="text-2xl text-green-900 uppercase pt-4">{pokemon.name}</h3>
+              <h3 className="text-4xl text-green-900 uppercase pt-4">name : {pokemon.name}</h3>
             </div>
-            <div className="flex justify-center flex-wrap flex-row m-auto">
+            <div className="flex justify-center flex-wrap flex-row">
                 <Image.PreviewGroup>
                   {
                     pokemon.sprites.map((item,index)=>{
                       if(item){
-                        return (<Image
-                          src={item}
-                          alt={pokemon.name}
-                          onLoad={()=>{setShowLoading(false)}}
-                          className="mr-2 border-2 border-yellow-200"
-                          key={index}
-                          width={192}
-                        ></Image>)
+                        return (
+                          <Image
+                            src={item}
+                            alt={pokemon.name}
+                            onLoad={()=>{setShowLoading(false)}}
+                            className="mr-4 border-2 border-yellow-200"
+                            key={index}
+                            width={192}
+                          ></Image>)
                       }
                       return null
                     })
                   }
                 </Image.PreviewGroup>
             </div>
-            <div className="w-full  mb-4 flex justify-center items-center" style={{display:(showLoading?"none":"")}}>
-              <h3 className="text-2xl text-green-900 uppercase pt-4">abilities</h3>
+            <div className="w-full  mb-4 flex justify-center flex-col items-center mt-6" style={{display:(showLoading?"none":"")}}>
+              <h3 className="text-4xl text-green-900 uppercase pt-4">abilities</h3>
+              <div className="w-full flex justify-center items-center mt-5">
+              {
+                pokemon.abilities.map((item,index)=>
+                  <Tooltip title={item.is_hidden ? 'Hidden' : 'Not_Hidden'} placement="top" color={item.is_hidden ? 'cyan' : 'green'} key={index} >
+                    <span className="text-2xl text-white cursor-pointer rounded-2xl bg-yellow-500 p-2 ml-2">{item.ability.name}</span>
+                  </Tooltip>
+                )
+              }
+              </div>
+
+              <h3 className="text-3xl text-green-900 uppercase pt-4">type</h3>
+              {
+
+              }
             </div>
+
           </Spin>
         )
       }
