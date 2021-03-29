@@ -10,10 +10,13 @@ const initialPokemon = {
   previcous: "",
   results: [],
 };
-
+// 缓存中的pokemon数据(总的)
+const pokemonFromSessionstorage = localStorage.getItem('pokemon')
 
 // 宝可梦列表
 const Home: FC = () => {
+  // 所有宝可梦数据,用于搜索,只会在第一次加载,后面会从localStorage中获取
+  const [allPokemon,setAllPokemon] = useState<IPokemonLocal[]>([])
   // fetch的宝可梦数据,后端结构
   const [pokemon, setPokemon] = useState<IPokemonListLocal>(initialPokemon);
   // input数据
@@ -26,6 +29,24 @@ const Home: FC = () => {
   const [showLoading,setShowLoading] = useState<boolean>(true)
   // 加载所有数据后,会隐藏加载更多按钮
   const [hideLoadingButton,setHideLoadingButton] = useState<boolean>(false)
+  // 获取总的宝可梦数据,有缓存则不会请求,没有缓存只会请求一次,下次直接从缓存读
+  useEffect(()=>{
+    if(!!pokemonFromSessionstorage){
+      console.log('有缓存');
+      setAllPokemon(JSON.parse(pokemonFromSessionstorage))
+      return
+    }
+    console.log('无缓存');
+    fetch('https://pokeapi.co/api/v2/pokemon?offset=0&limit=1200')
+      .then(res => res.json())
+      .then(data=>{
+        const results = data.results.map((pokemon: IPokemon, index: number) => {
+          return { ...pokemon, index: index + 1 };
+        });
+        setAllPokemon(results);
+        localStorage.setItem('pokemon',JSON.stringify(results))
+      })
+  },[])
 
   useEffect(() => {
     // 设置加载中
@@ -54,12 +75,12 @@ const Home: FC = () => {
       setFilteredPokemon(pokemon.results);
       return;
     }
-    if (pokemon) {
+    if (allPokemon) {
       setFilteredPokemon(() =>
-        pokemon.results.filter(pokemon => pokemon.name.includes(pokemonInput!))
+        allPokemon.filter(pokemon => pokemon.name.includes(pokemonInput!))
       );
     }
-  }, [pokemonInput, pokemon]);
+  }, [pokemonInput, allPokemon,pokemon.results]);
 
   // 输入框筛选条件改变
   const pokemonFilterChange: (event: React.ChangeEvent<HTMLInputElement>) => void = event => {
@@ -96,7 +117,7 @@ const Home: FC = () => {
         </div>
         <div className="flex justify-center items-center">
           {
-            hideLoadingButton ? <span className="text-4xl m-4 mt-1 text text-purple-700">All pokemons Loaded</span> : <button
+            Number(hideLoadingButton) | pokemonInput.length ? <span className="text-4xl m-4 mt-1 text text-purple-700">All pokemons Loaded</span> : <button
             onClick={loadPokemonHandler}
             className="m-4 mt-1 p-4 outline-no text-lg bg-blue-400 rounded-lg border-none text-white"
             >Loading More</button>
