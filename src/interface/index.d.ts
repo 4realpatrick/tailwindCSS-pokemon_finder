@@ -31,4 +31,9 @@ export interface IPokemonDisplay{
   name:string
   sprites:any[]
   abilities:any[]
+  types:any[]
+  base_experience:number
+  height:number
+  weight:number
+  stats:any[]
 }
