@@ -112,7 +112,7 @@ const Home: FC = () => {
                   <Link to={`/about/${item.index}`}>{item.name}</Link>
                 </div>
               ))
-            : <div className="flex justify-center items-center text-4xl text-blue-400 text-center w-full">no such pokemon under this circumstance</div>
+            : <div className="flex justify-center items-center text-4xl text-blue-400 text-center w-full">没有符合条件的宝可梦</div>
           }
         </div>
         <div className="flex justify-center items-center">
